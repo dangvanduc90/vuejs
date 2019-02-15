@@ -10,7 +10,10 @@
 <body>
     <div class="nav-bar"></div>
     <div id="app">
-        <product message="My journey with Vue"></product>
+            <div class="cart">
+                    <p>Cart({{ cart.length }})</p>
+                </div>
+        <product message="My journey with Vue" @add-to-cart="updateCart"></product>
     </div>
     <!-- production version, optimized for size and speed -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>

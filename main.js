@@ -4,7 +4,7 @@ Vue.component('product', {
             type: String,
             required: false,
             default: "Hi"
-        }
+        },
     },
     data: function () {
       return {
@@ -12,6 +12,7 @@ Vue.component('product', {
             product: 'Hello Vue!',
             description: 'this is image',
             inventory: 20,
+            selectedVariant: 0,
             variants: [
                 {
                     variantId: 1,
@@ -27,17 +28,17 @@ Vue.component('product', {
             disabledCart: 'text-danger',
             enableCart: 'text-success',
             bgWhite: 'bgWhite',
-            cart: 0,
             image: 'https://cf.shopee.vn/file/a13fad71a551be60c86803c48a6f4f20'
         }
     },
     methods: {
         addToCart: function() {
-            this.cart += 1;
+            this.$emit('add-to-cart', this.variants[this.selectedVariant].variantId)
         },
         updateProduct: function(index) {
+            this.selectedVariant = index
             this.image = this.variants[index].variantImage
-        }
+        },
     },
     computed: {
         title() {
@@ -62,14 +63,19 @@ Vue.component('product', {
                 </li>
             </ul>
             <button v-on:click="addToCart" :disabled="inventory == 0" :class="inventory == 0 ? [disabledCart, bgWhite] : enableCart">Add to Cart</button>
-            <div class="cart">
-                <p>Cart({{ cart }})</p>
-            </div>
+
         </div>
     </div>`
 })
 
 var app  = new Vue({
     el: '#app',
-    data: {}
+    data: {
+        cart: []
+    },
+    methods: {
+        updateCart(id) {
+            this.cart.push(id)
+        }
+    },
 })
